@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: media-board-backend
+    env: java
+    rootDir: backend
+    buildCommand: cd backend && mvn clean package -DskipTests
+    startCommand: cd backend && java -jar target/media-board-backend-1.0.0.jar
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: PORT
+        value: 10000
