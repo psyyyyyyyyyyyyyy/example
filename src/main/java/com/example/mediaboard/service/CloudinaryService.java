@@ -1,6 +1,7 @@
 package com.example.mediaboard.service;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -50,12 +51,7 @@ public class CloudinaryService {
      */
     public String generateImageUrl(String publicId, int width, int height) {
         return cloudinary.url()
-                .transformation(ObjectUtils.asMap(
-                        "width", width,
-                        "height", height,
-                        "crop", "fill",
-                        "quality", "auto"
-                ))
+                .transformation(new Transformation().width(width).height(height).crop("fill").quality("auto"))
                 .generate(publicId);
     }
 

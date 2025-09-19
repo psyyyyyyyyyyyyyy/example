@@ -137,6 +137,6 @@ public class FileUploadService {
             throw new RuntimeException("파일을 찾을 수 없습니다: " + fileName);
         }
         
-        return mediaFile.getFileUrl(); // Cloudinary URL 반환
+        return mediaFile.getUrl(); // Cloudinary URL 반환
     }
 }
