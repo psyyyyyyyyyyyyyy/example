@@ -18,8 +18,8 @@ FROM eclipse-temurin:17-jre-alpine
 # Create app directory
 WORKDIR /app
 
-# Create uploads directory
-RUN mkdir -p uploads data
+# Create directories (uploads for local dev, /mnt/data for persistent disk)
+RUN mkdir -p uploads data /mnt/data/uploads
 
 # Copy the built JAR file
 COPY --from=build /app/target/media-board-backend-1.0.0.jar app.jar
