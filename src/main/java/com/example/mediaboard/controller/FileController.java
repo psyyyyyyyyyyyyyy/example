@@ -87,29 +87,15 @@ public class FileController {
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/files/{fileName}")
-    public ResponseEntity<ByteArrayResource> getFile(
+    public ResponseEntity<Void> getFile(
             @Parameter(description = "파일명", required = true) @PathVariable String fileName) {
         try {
-            MediaFile mediaFile = fileUploadService.getFileByFileName(fileName);
-            if (mediaFile == null) {
-                return ResponseEntity.notFound().build();
-            }
-            
-            byte[] fileBytes = fileUploadService.getFileBytes(fileName);
-            ByteArrayResource resource = new ByteArrayResource(fileBytes);
-            
+            String fileUrl = fileUploadService.getFileUrl(fileName);
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + mediaFile.getName() + "\"");
-            
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(fileBytes.length)
-                    .contentType(MediaType.parseMediaType(mediaFile.getType()))
-                    .body(resource);
+            headers.add(HttpHeaders.LOCATION, fileUrl);
+            return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
     
