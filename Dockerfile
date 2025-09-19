@@ -33,3 +33,4 @@ ENV PORT=10000
 
 # Run the application
 CMD ["java", "-jar", "app.jar"]
+
