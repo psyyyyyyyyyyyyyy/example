@@ -108,11 +108,13 @@ public class PostService {
         return new PostResponseDto(savedPost, userIp);
     }
     
-    // 게시글 삭제
+    // 게시글 삭제 (관련 파일들도 함께 삭제)
     public void deletePost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. ID: " + id));
         
+        // 관련 파일들 삭제는 JPA의 cascade 설정으로 자동 처리됨
+        // 또는 @PreRemove 어노테이션으로 처리 가능
         postRepository.delete(post);
     }
     
